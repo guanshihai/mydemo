@@ -10,7 +10,7 @@ public class User {
     // 主键ID
     private Long id;
     // 用户名
-    private String username;
+    private String name;
     // 密码（实际开发需加密）
     private String password;
     // 年龄
