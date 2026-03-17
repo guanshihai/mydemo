@@ -1,0 +1,67 @@
+# application.yml
+
+mybatis-plus:
+  # 扫描 XML 文件路径（对应自动生成的 resources/mapper 目录）
+  mapper-locations: classpath:mapper/*.xml
+  # 实体类别名包（简化 XML 中 resultType 写法）
+  type-aliases-package: org.example.springtestdemo.entity
+  # 核心配置
+  configuration:
+    # 数据库下划线转驼峰（如 user_name → userName）
+    map-underscore-to-camel-case: true
+    # 打印 SQL 日志（开发环境调试用，生产关闭）
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  # 全局配置（可选，主键自增策略）
+  global-config:
+    db-config:
+      id-type: auto
+
+spring:
+  # 数据库核心配置
+  datasource:
+    # 1. 数据库连接地址（替换为你的库名，）
+    url: jdbc:mysql://localhost:3306/test?useSSL=false&characterEncoding=utf8&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
+    # 2. 数据库用户名
+    username: test
+    # 3. 数据库密码
+    password: admin
+    # 4. MySQL 驱动类（8.x 版本用这个，5.x 用 com.mysql.jdbc.Driver）
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    # 5. 连接池配置（Spring Boot 2.x 默认用 HikariCP，性能最优）
+    hikari:
+      # 连接池最大连接数
+      maximum-pool-size: 10
+      # 最小空闲连接数
+      minimum-idle: 5
+      # 连接超时时间（毫秒）
+      connection-timeout: 30000
+      # 连接最大存活时间（毫秒）
+      max-lifetime: 1800000
+  sql:
+    init:
+      # ✅ Spring Boot 4.x 官方配置：彻底关闭数据库依赖自动检测，根源解决Bean定义异常
+      dependency-detection:
+        enabled: false
+
+
+  data:
+    redis:
+      host: 127.0.0.1
+      port: 6379
+      password:
+      database: 0
+      lettuce:
+        pool:
+          max-active: 8   # 最大连接数
+          max-idle: 8     # 最大空闲连接
+          min-idle: 0     # 最小空闲连接
+          max-wait: -1ms  # 连接等待时间（-1 表示无限制）
+## 新增：强制打印 MyBatis 加载日志
+#logging:
+#  level:
+#    org.apache.ibatis: DEBUG
+#    com.baomidou.mybatisplus: DEBUG
+#    org.example.springtestdemo.mapper: DEBUG
+
+server:
+  port: 8080
