@@ -1,8 +1,7 @@
-package org.example.springtestdemo.service;
+package org.example.springtestdemo.service.thruserservice;
 
 
-import org.example.springtestdemo.dto.UserDTO;
-import org.example.springtestdemo.entity.User;
+import org.example.springtestdemo.entity.thruser.User;
 
 
 import java.util.List;
@@ -14,12 +13,12 @@ public interface UserService {
     /**
      * 根据ID查询用户
      */
-    UserDTO getUserById(Long id);
+    User getUserById(Long id);
 
     /**
      * 查询所有用户
      */
-    List<UserDTO> listAllUsers();
+    List<User> listAllUsers();
 
     /**
      * 添加用户
@@ -35,4 +34,6 @@ public interface UserService {
      * 删除用户
      */
     boolean deleteUser(Long id);
+
+    public String test();
 }
