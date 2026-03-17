@@ -29,6 +29,12 @@
         WHERE id = #{id}
     </select>
 
+    <!-- 查找同名用户（精确匹配） -->
+    <select id="getUserByName" parameterType="java.lang.String" resultMap="BaseResultMap">
+        <include refid="Base_Column_List"/>
+        WHERE name = #{name}
+    </select>
+
     <!-- 添加用户 -->
     <insert id="addUser" parameterType="org.example.springtestdemo.entity.thruser.User" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO sys_user (
@@ -44,5 +50,12 @@
                  )
     </insert>
 
-
+    <update id="updateUser" parameterType="org.example.springtestdemo.entity.thruser.User" useGeneratedKeys="true">
+        UPDATE sys_user
+        SET name = #{name},
+            password = #{password},
+            age = #{age},
+            email = #{email}
+        WHERE id = #{id}
+    </update>
 </mapper>

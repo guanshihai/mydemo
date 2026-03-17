@@ -35,5 +35,5 @@ public interface UserService {
      */
     boolean deleteUser(Long id);
 
-    public String test();
+
 }

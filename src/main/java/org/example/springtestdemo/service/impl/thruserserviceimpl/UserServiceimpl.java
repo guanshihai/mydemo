@@ -30,13 +30,14 @@ public class UserServiceimpl implements UserService {
     @TransactionLog(successMsg = "用户注册成功：", failMsg = "用户注册失败：")
     public void registerUser(User user) {
         // 检查用户是否已存在
+        if (user.getName() == null || user.getName().isEmpty()) {
+            throw new BusinessException(400, "用户名不能为空");
+        }
         if (userExists(user.getName())) {
             throw new BusinessException(400, "用户名已存在");
         }
         // 参数校验
-        if (user.getName() == null || user.getName().isEmpty()) {
-            throw new BusinessException(400, "用户名不能为空");
-        }
+
         // 1. 保存用户（第一步写操作）
         thrEmpUserMapper.insert(user);
         // 2. 赠送新用户 100 积分（第二步写操作）
@@ -73,14 +74,11 @@ public class UserServiceimpl implements UserService {
 
         return false;
     }
-    @Override
-    public String test(){
-        return thrEmpUserMapper.test();
-    }
 
 
     private boolean userExists(String name) {
         // 实现用户存在性检查
-        return false;
+        User user = thrEmpUserMapper.getUserByName(name);
+        return user != null;
     }
 }

@@ -34,7 +34,7 @@ public class TransactionLogAspect {
             return result;
         } catch (Throwable e) {
             // 3. 失败：记录失败日志（独立事务）
-            operationLogService.saveLog(transactionLog.failMsg() + getUserName(joinPoint) );
+            operationLogService.saveLog(transactionLog.failMsg()  + getUserName(joinPoint)+"，原因：" + e.getMessage() );
             // 4. 必须抛出异常，让事务回滚
             throw e;
         }
