@@ -23,6 +23,20 @@ public interface THrEmpUserMapper extends BaseMapper<User> {
     //@Select("select id, name, age, email from sys_user where id=#{id}")
      User getUserById(Long id);
 
+     /**
+     *  通过用户名获取用户
+     * @param name
+     * @return
+     */
+      User getUserByName(String name);
+
+     /**
+     *  更新用户
+     * @param user
+     * @return
+     */
+     int updateUser(User user);
+
     /**
      *  添加用户
      * @param user
@@ -30,5 +44,5 @@ public interface THrEmpUserMapper extends BaseMapper<User> {
      */
      int addUser(User user);
 
-     String  test();
+
 }

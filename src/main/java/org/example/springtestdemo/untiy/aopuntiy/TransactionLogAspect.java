@@ -6,7 +6,8 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.example.springtestdemo.entity.thruser.User;
 import org.example.springtestdemo.service.thruserservice.OperationLogService;
-import org.example.springtestdemo.untiy.TransactionLog;
+import org.example.springtestdemo.untiy.aopannotation.TransactionLog;
+import org.jspecify.annotations.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -34,14 +35,14 @@ public class TransactionLogAspect {
             return result;
         } catch (Throwable e) {
             // 3. 失败：记录失败日志（独立事务）
-            operationLogService.saveLog(transactionLog.failMsg() + getUserName(joinPoint) );
+            operationLogService.saveLog(transactionLog.failMsg()  + getUserName(joinPoint)+"，原因：" + e.getMessage() );
             // 4. 必须抛出异常，让事务回滚
             throw e;
         }
     }
 
     // 辅助方法：从参数里获取用户名
-    private String getUserName(ProceedingJoinPoint joinPoint) {
+    private String getUserName(@NonNull ProceedingJoinPoint joinPoint) {
         Object[] args = joinPoint.getArgs();
         for (Object arg : args) {
             if (arg instanceof User) {

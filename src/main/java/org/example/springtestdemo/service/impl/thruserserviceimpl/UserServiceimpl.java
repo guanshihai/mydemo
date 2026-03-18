@@ -5,9 +5,8 @@ import org.example.springtestdemo.entity.thruser.User;
 import org.example.springtestdemo.entity.thruser.UserPoint;
 import org.example.springtestdemo.mapper.thrusermapper.THrEmpUserMapper;
 import org.example.springtestdemo.mapper.thrusermapper.UserPointMapper;
-import org.example.springtestdemo.service.thruserservice.OperationLogService;
 import org.example.springtestdemo.service.thruserservice.UserService;
-import org.example.springtestdemo.untiy.TransactionLog;
+import org.example.springtestdemo.untiy.aopannotation.TransactionLog;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,8 +20,6 @@ public class UserServiceimpl implements UserService {
     private THrEmpUserMapper thrEmpUserMapper;
     @Autowired
     private UserPointMapper userPointMapper;
-    @Autowired
-    private OperationLogService operationLogService;
 
 
     // ✅ 核心事务：多步写操作，必须保证一致性
@@ -30,13 +27,14 @@ public class UserServiceimpl implements UserService {
     @TransactionLog(successMsg = "用户注册成功：", failMsg = "用户注册失败：")
     public void registerUser(User user) {
         // 检查用户是否已存在
+        if (user.getName() == null || user.getName().isEmpty()) {
+            throw new BusinessException(400, "用户名不能为空");
+        }
         if (userExists(user.getName())) {
             throw new BusinessException(400, "用户名已存在");
         }
         // 参数校验
-        if (user.getName() == null || user.getName().isEmpty()) {
-            throw new BusinessException(400, "用户名不能为空");
-        }
+
         // 1. 保存用户（第一步写操作）
         thrEmpUserMapper.insert(user);
         // 2. 赠送新用户 100 积分（第二步写操作）
@@ -73,14 +71,11 @@ public class UserServiceimpl implements UserService {
 
         return false;
     }
-    @Override
-    public String test(){
-        return thrEmpUserMapper.test();
-    }
 
 
     private boolean userExists(String name) {
         // 实现用户存在性检查
-        return false;
+        User user = thrEmpUserMapper.getUserByName(name);
+        return user != null;
     }
 }
