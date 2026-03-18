@@ -17,7 +17,7 @@ public class RedisTest {
     @Test
     public void testRedis() {
         // 存储数据
-        String userDTO=userService.getUserById(3L).toString();
+        String userDTO=userService.getUserById(1L).toString();
         //List<User> user=userService.listAllUsers();
         //redisService.setKeys("sys_user", user);
         redisService.setKey("sys_user2", userDTO);

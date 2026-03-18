@@ -5,9 +5,8 @@ import org.example.springtestdemo.entity.thruser.User;
 import org.example.springtestdemo.entity.thruser.UserPoint;
 import org.example.springtestdemo.mapper.thrusermapper.THrEmpUserMapper;
 import org.example.springtestdemo.mapper.thrusermapper.UserPointMapper;
-import org.example.springtestdemo.service.thruserservice.OperationLogService;
 import org.example.springtestdemo.service.thruserservice.UserService;
-import org.example.springtestdemo.untiy.TransactionLog;
+import org.example.springtestdemo.untiy.aopannotation.TransactionLog;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,8 +20,6 @@ public class UserServiceimpl implements UserService {
     private THrEmpUserMapper thrEmpUserMapper;
     @Autowired
     private UserPointMapper userPointMapper;
-    @Autowired
-    private OperationLogService operationLogService;
 
 
     // ✅ 核心事务：多步写操作，必须保证一致性
